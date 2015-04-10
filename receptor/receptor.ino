@@ -14,13 +14,14 @@ uint8_t buflen = VW_MAX_MESSAGE_LEN;
   
   
 void setup(){
+  // pin 11 en el data del receptor
   
   Serial.begin(9600);
   // mensaje para saber que todo esta bien
   Serial.println("inicio"); 
   
   // led de control
-  pinMode(10, OUTPUT);
+  pinMode(8, OUTPUT);
   
   // Configuramos con la misma frecuencia que la del transmisor
   vw_setup(2000);	 
@@ -33,7 +34,7 @@ void loop(){
   if (vw_get_message(buf, &buflen)){
     int i;
     // encendemos el led al iniciar la lectura
-    digitalWrite(10, HIGH); 
+    digitalWrite(8, HIGH); 
     
     Serial.print("Recibi: ");
     for (i = 0; i < buflen; i++){
@@ -43,6 +44,6 @@ void loop(){
     Serial.println("");
     
     //apagamos el led al terminar
-    digitalWrite(10, LOW); 
-}
+    digitalWrite(8, LOW); 
+  }
 }

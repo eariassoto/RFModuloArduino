@@ -62,7 +62,7 @@ extern "C"
     // Defaults to 12
     extern void vw_set_tx_pin(uint8_t pin);
 
-    // Set the digital IO pin to be for receive data
+    // Set the digital IO pin to be for receive datas
     // Defaults to 11
     extern void vw_set_rx_pin(uint8_t pin);
 

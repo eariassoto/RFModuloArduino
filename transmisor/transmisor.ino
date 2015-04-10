@@ -7,22 +7,25 @@
 // 2015 Emmanuel Arias ariassotoemmanuel@gmail.com 
 
 #include "VirtualWire.h"
+#define LED 13
 
 void setup(){
+  // pin 12 va al data del transmisor
   
-  // Configurar el modulo para que transmita a 2000 bits por segundo hace ms extenso el rango de alcance
+  // Configurar el modulo para que transmita a 2000 bits por segundo 
+  // hace mas extenso el rango de alcance
   vw_setup(2000);
   
   // led para probar la duracion de envio de datos
-  pinMode(8, OUTPUT);	 	 
+  pinMode(LED, OUTPUT);	 	 
 }
 
 void loop(){
   // mensaje que queremos enviar
-  const char *buf = "prueba";
+  const char *buf = "hola mundo";
 
   // encendemos el led
-  digitalWrite(8, HIGH); 
+  digitalWrite(LED, HIGH); 
   
   vw_send((uint8_t *)buf, strlen(buf));
   
@@ -30,6 +33,8 @@ void loop(){
   vw_wait_tx(); 
   
   // apagamos el led
-  digitalWrite(8, LOW);
+  digitalWrite(LED, LOW);
+  
+  // tiempo de espera entre envio y envio
   delay(200); 
 }
