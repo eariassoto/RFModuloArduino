@@ -7,7 +7,7 @@
 // 2015 Emmanuel Arias ariassotoemmanuel@gmail.com 
 
 #include "VirtualWire.h"
-
+#define LED 13
 // definimos los buffers para los datos
 uint8_t buf[VW_MAX_MESSAGE_LEN]; 
 uint8_t buflen = VW_MAX_MESSAGE_LEN; 
@@ -21,8 +21,8 @@ void setup(){
   Serial.println("inicio"); 
   
   // led de control
-  pinMode(8, OUTPUT);
-  
+  pinMode(LED, OUTPUT);
+  digitalWrite(LED,LOW);
   // Configuramos con la misma frecuencia que la del transmisor
   vw_setup(2000);	 
   vw_rx_start();
@@ -34,7 +34,7 @@ void loop(){
   if (vw_get_message(buf, &buflen)){
     int i;
     // encendemos el led al iniciar la lectura
-    digitalWrite(8, HIGH); 
+    digitalWrite(LED, HIGH); 
     
     Serial.print("Recibi: ");
     for (i = 0; i < buflen; i++){
@@ -44,6 +44,6 @@ void loop(){
     Serial.println("");
     
     //apagamos el led al terminar
-    digitalWrite(8, LOW); 
+    digitalWrite(LED, LOW); 
   }
 }

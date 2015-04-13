@@ -7,7 +7,7 @@
 // 2015 Emmanuel Arias ariassotoemmanuel@gmail.com 
 
 #include "VirtualWire.h"
-#define LED 13
+#define LED 3
 
 void setup(){
   // pin 12 va al data del transmisor
