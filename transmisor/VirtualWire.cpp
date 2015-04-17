@@ -48,7 +48,7 @@ static uint8_t vw_ptt_inverted = 0;
 static uint8_t vw_rx_pin = 11;
 
 // The digital IO pin number of the transmitter data
-static uint8_t vw_tx_pin = 12;
+static uint8_t vw_tx_pin = 2;
 
 // Current receiver sample
 static uint8_t vw_rx_sample = 0;

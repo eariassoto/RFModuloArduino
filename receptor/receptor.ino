@@ -8,6 +8,7 @@
 
 #include "VirtualWire.h"
 #define LED 13
+
 // definimos los buffers para los datos
 uint8_t buf[VW_MAX_MESSAGE_LEN]; 
 uint8_t buflen = VW_MAX_MESSAGE_LEN; 

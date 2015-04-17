@@ -9,6 +9,32 @@
 #include "VirtualWire.h"
 #define LED 3
 
+#define CIRCULO   8
+#define EQUIS     7
+#define CUADRADO  6
+#define TRIANGULO 5
+
+#define L1        4
+#define R1        13
+
+#define IZQUIERDA 9
+#define ABAJO     10
+#define DERECHA   11
+#define ARRIBA    12
+#define NELEMS(x)  (sizeof(x) / sizeof(x[0]))
+
+const int pinBoton[6] = {L1, R1, CIRCULO, EQUIS, CUADRADO, TRIANGULO};
+const int pinMovimiento[4] = {ARRIBA,DERECHA,ABAJO,IZQUIERDA};
+
+const char tipoMovimiento[4] = {'g','h','i','j'};
+const char tipoBoton[6] = {'a','b','c','d','e','f'};
+
+bool estadoBoton[6];
+bool estadoMovimiento;
+
+int hayComando;
+int seleccionMovimiento;
+
 void setup(){
   // pin 12 va al data del transmisor
   
@@ -16,11 +42,48 @@ void setup(){
   // hace mas extenso el rango de alcance
   vw_setup(2000);
   
+  for(int i = 0; i < NELEMS(pinBoton); i++){
+    pinMode(pinBoton[i], INPUT);
+    estadoBoton[i] = false;
+  }
+   
+  for(int i = 0; i < NELEMS(pinMovimiento); i++)
+    pinMode(pinMovimiento[i], INPUT);
+    
+  hayComando = 0;
+    
   // led para probar la duracion de envio de datos
   pinMode(LED, OUTPUT);	 	 
 }
 
 void loop(){
+  for(int i = 0; i < NELEMS(pinBoton); i++){
+    if(digitalRead(pinBoton[i]) == LOW){ // se presiono el boton i
+      if(estadoBoton[i] == false){       // primera vez
+        estadoBoton[i] = true;
+        hayComando++;
+      }
+    }else{                               // boton sin presionar
+      if(estadoBoton[i] == true){        // estaba presionado
+        estadoBoton[i] = false; 
+        hayComando--;
+      }
+    }
+  }
+  
+  for(int i = 0; i < NELEMS(pinMovimiento); i++){
+    if(digitalRead(pinMovimiento) == LOW){
+    
+    }else{
+    
+    }
+  }
+  
+  if(hayComando > 0)
+    digitalWrite(LED, HIGH);
+  else
+    digitalWrite(LED, LOW);
+  /*
   // mensaje que queremos enviar
   const char *buf = "hola mundo";
 
@@ -36,5 +99,6 @@ void loop(){
   digitalWrite(LED, LOW);
   
   // tiempo de espera entre envio y envio
-  delay(200); 
+  delay(200);
+  */ 
 }
