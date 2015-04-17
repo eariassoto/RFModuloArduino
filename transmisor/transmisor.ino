@@ -26,9 +26,7 @@
 const int pinBoton[6] = {L1, R1, CIRCULO, EQUIS, CUADRADO, TRIANGULO};
 const int pinMovimiento[4] = {ARRIBA,DERECHA,ABAJO,IZQUIERDA};
 
-const char tipoMovimiento[4] = {'g','h','i','j'};
-const char tipoBoton[6] = {'a','b','c','d','e','f'};
-
+bool hayCambio;
 bool estadoBoton[6];
 bool estadoMovimiento;
 
@@ -51,7 +49,8 @@ void setup(){
     pinMode(pinMovimiento[i], INPUT);
     
   hayComando = 0;
-    
+  hayCambio = false;
+  
   // led para probar la duracion de envio de datos
   pinMode(LED, OUTPUT);	 	 
 }
@@ -60,12 +59,14 @@ void loop(){
   for(int i = 0; i < NELEMS(pinBoton); i++){
     if(digitalRead(pinBoton[i]) == LOW){ // se presiono el boton i
       if(estadoBoton[i] == false){       // primera vez
+        hayCambio = true;
         estadoBoton[i] = true;
         hayComando++;
       }
     }else{                               // boton sin presionar
       if(estadoBoton[i] == true){        // estaba presionado
-        estadoBoton[i] = false; 
+        hayCambio = true;
+        estadoBoton[i] = false;
         hayComando--;
       }
     }
@@ -74,12 +75,14 @@ void loop(){
   for(int i = 0; i < NELEMS(pinMovimiento); i++){
     if(digitalRead(pinMovimiento[i]) == LOW){
       if(!estadoMovimiento){
+        hayCambio = true;
         seleccionMovimiento = i;
         estadoMovimiento = true;
         hayComando++;
       }
     }else{
       if(estadoMovimiento && seleccionMovimiento == i){
+        hayCambio = true;
         estadoMovimiento = false;
         hayComando--;
       }
@@ -90,18 +93,25 @@ void loop(){
     digitalWrite(LED, HIGH);
   else
     digitalWrite(LED, LOW);
-  
-  for(int i = 0; i < NELEMS(estadoBoton); i++){
-    if(estadoBoton[i]){
-      Serial.print(tipoBoton[i]);
-      Serial.print(' ');
+
+  if(hayCambio){
+    for(int i = 0; i < NELEMS(estadoBoton); i++){
+      if(estadoBoton[i]){
+        Serial.print('1');
+      }else{
+         Serial.print('0');
+      }
+       Serial.print(' ');
     }
+    if(estadoMovimiento){
+      Serial.print('1');
+    }else{
+      Serial.print('0');
+    }
+    Serial.print('\n');
+    hayCambio = false;
   }
-  if(estadoMovimiento){
-    Serial.print(tipoMovimiento[seleccionMovimiento]);
-  }
-  Serial.print('\n');
-  
+
   /*
   // mensaje que queremos enviar
   const char *buf = "hola mundo";
