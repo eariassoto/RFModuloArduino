@@ -55,7 +55,13 @@ void setup(){
   pinMode(LED, OUTPUT);	 	 
 }
 
-void loop(){
+void enviarHilera(char* buf){
+  vw_send((uint8_t *)buf, strlen(buf));  
+  // espera que la transmision termine
+  vw_wait_tx();
+}  
+
+void revisarEstadoBotones(){
   for(int i = 0; i < NELEMS(pinBoton); i++){
     if(digitalRead(pinBoton[i]) == LOW){ // se presiono el boton i
       if(estadoBoton[i] == false){       // primera vez
@@ -71,7 +77,9 @@ void loop(){
       }
     }
   }
-  
+}
+
+void revisarEstadoMovimientos(){
   for(int i = 0; i < NELEMS(pinMovimiento); i++){
     if(digitalRead(pinMovimiento[i]) == LOW){
       if(!estadoMovimiento){
@@ -88,12 +96,16 @@ void loop(){
       }
     }
   }
-  
+}
+
+void actualizarLed(){
   if(hayComando > 0)
     digitalWrite(LED, HIGH);
   else
     digitalWrite(LED, LOW);
+}
 
+void revisarCambioGeneral(){
   if(hayCambio){
     for(int i = 0; i < NELEMS(estadoBoton); i++){
       if(estadoBoton[i]){
@@ -105,29 +117,23 @@ void loop(){
     }
     if(estadoMovimiento){
       Serial.print('1');
+      Serial.print(' ');
+      Serial.print(seleccionMovimiento);
     }else{
+      Serial.print('0');
+      Serial.print(' ');
       Serial.print('0');
     }
     Serial.print('\n');
     hayCambio = false;
   }
+}
 
-  /*
-  // mensaje que queremos enviar
-  const char *buf = "hola mundo";
+void loop(){
+  revisarEstadoBotones();
+  revisarEstadoMovimientos();
+  
+  actualizarLed();
 
-  // encendemos el led
-  digitalWrite(LED, HIGH); 
-  
-  vw_send((uint8_t *)buf, strlen(buf));
-  
-  // espera que la transmision termine
-  vw_wait_tx(); 
-  
-  // apagamos el led
-  digitalWrite(LED, LOW);
-  
-  // tiempo de espera entre envio y envio
-  delay(200);
-  */ 
+  revisarCambioGeneral();
 }
