@@ -37,7 +37,7 @@ int seleccionMovimiento;
 
 void setup(){
   // pin 12 va al data del transmisor
-  
+  Serial.begin(9600);
   // Configurar el modulo para que transmita a 2000 bits por segundo 
   // hace mas extenso el rango de alcance
   vw_setup(2000);
@@ -72,10 +72,17 @@ void loop(){
   }
   
   for(int i = 0; i < NELEMS(pinMovimiento); i++){
-    if(digitalRead(pinMovimiento) == LOW){
-    
+    if(digitalRead(pinMovimiento[i]) == LOW){
+      if(!estadoMovimiento){
+        seleccionMovimiento = i;
+        estadoMovimiento = true;
+        hayComando++;
+      }
     }else{
-    
+      if(estadoMovimiento && seleccionMovimiento == i){
+        estadoMovimiento = false;
+        hayComando--;
+      }
     }
   }
   
@@ -83,6 +90,18 @@ void loop(){
     digitalWrite(LED, HIGH);
   else
     digitalWrite(LED, LOW);
+  
+  for(int i = 0; i < NELEMS(estadoBoton); i++){
+    if(estadoBoton[i]){
+      Serial.print(tipoBoton[i]);
+      Serial.print(' ');
+    }
+  }
+  if(estadoMovimiento){
+    Serial.print(tipoMovimiento[seleccionMovimiento]);
+  }
+  Serial.print('\n');
+  
   /*
   // mensaje que queremos enviar
   const char *buf = "hola mundo";
