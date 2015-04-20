@@ -33,6 +33,8 @@ bool estadoMovimiento;
 int hayComando;
 int seleccionMovimiento;
 
+char *buff = "0000000n";
+
 void setup(){
   // pin 12 va al data del transmisor
   Serial.begin(9600);
@@ -109,22 +111,18 @@ void revisarCambioGeneral(){
   if(hayCambio){
     for(int i = 0; i < NELEMS(estadoBoton); i++){
       if(estadoBoton[i]){
-        Serial.print('1');
+        buff[i] = '1';
       }else{
-         Serial.print('0');
+         buff[i] = '0';
       }
-       Serial.print(' ');
     }
     if(estadoMovimiento){
-      Serial.print('1');
-      Serial.print(' ');
-      Serial.print(seleccionMovimiento);
+      buff[6] = '1';
+      buff[7] = 48+seleccionMovimiento;
     }else{
-      Serial.print('0');
-      Serial.print(' ');
-      Serial.print('0');
+      buff[6] = '0';
+      buff[7] = 'n';
     }
-    Serial.print('\n');
     hayCambio = false;
   }
 }
@@ -136,4 +134,5 @@ void loop(){
   actualizarLed();
 
   revisarCambioGeneral();
+  enviarHilera(buff);
 }
