@@ -24,7 +24,7 @@
 #define NELEMS(x)  (sizeof(x) / sizeof(x[0]))
 
 const int pinBoton[6] = {L1, R1, CIRCULO, EQUIS, CUADRADO, TRIANGULO};
-const int pinMovimiento[4] = {ARRIBA,DERECHA,ABAJO,IZQUIERDA};
+const int pinMovimiento[4] = {ARRIBA, DERECHA, ABAJO, IZQUIERDA};
 
 bool hayCambio;
 bool estadoBoton[6];
@@ -36,7 +36,7 @@ int seleccionMovimiento;
 char *buff = "0000000n";
 
 void setup(){
-  // pin 12 va al data del transmisor
+  // pin 2 va al data del transmisor
   Serial.begin(9600);
   // Configurar el modulo para que transmita a 2000 bits por segundo 
   // hace mas extenso el rango de alcance
@@ -53,7 +53,7 @@ void setup(){
   hayComando = 0;
   hayCambio = false;
   
-  // led para probar la duracion de envio de datos
+  // led para indicar el envio de datos
   pinMode(LED, OUTPUT);	 	 
 }
 
