@@ -13,7 +13,7 @@ El circuito consiste en 10 botones de presión, cada uno conectado a un pin digi
 Usar el sketch en la carpeta **transmisor** para el control remoto. Este no necesita configuración alguna aunque si se desea se pueden cambiar los pines de entrada y salida digital.
 
 ### Receptor
-En la carpeta *receptor* están los archivos necesarios para ejecutar acciones de acuerdo a cada uno de los botones. El sketch de esa carpeta es un mero ejemplo. La clase Receptor recibe un vector con punteros a funciones, tal vez eso se vea muy oscuro si no está familiarizado con C pero el .ino especifica muy claro lo que se necesita para poner a correr esta clase.
+En la carpeta **receptor** están los archivos necesarios para ejecutar acciones de acuerdo a cada uno de los botones. El sketch de esa carpeta es un mero ejemplo. La clase Receptor recibe un vector con punteros a funciones, tal vez eso se vea muy oscuro si no está familiarizado con C pero el .ino especifica muy claro lo que se necesita para poner a correr esta clase.
 
 Nota: Si se desea cambiar los pines de ambos módulos, se deben modificar las constantes que se encuentran en la biblioteca VirtualWire.
 
